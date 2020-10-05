@@ -156,6 +156,24 @@ public class IVCompressor {
 	}
 
 	/**
+	 * This method attempts to resize the image file to lower resolution
+	 * 
+	 * Returns resized image in byte aaray
+	 * 
+	 * @param file
+	 * @param fileFormat
+	 * @param path
+	 * @return
+	 * @throws ImageException
+	 * @throws IOException
+	 */
+	public byte[] resizeImageUsingFile(File file, ImageFormats fileFormat, String path)
+			throws ImageException, IOException {
+		return resizeImage(IVFileUtils.copyToByteArray(file), fileFormat);
+
+	}
+
+	/**
 	 * This method attempts to resize the image received as Inputstream object to
 	 * lower resolution
 	 * 
@@ -251,19 +269,23 @@ public class IVCompressor {
 	 */
 	private void setAudioAndVideoAttributes(String fileFormat, IVAudioAttributes audioAttribute,
 			IVVideoAttributes videoAttribute) {
-		videoAttributes.setCodec(IVConstants.VIDEO_CODEC);
-		videoAttributes.setX264Profile(X264_PROFILE.BASELINE);
-		videoAttributes.setBitRate(videoAttribute.getBitRate());
-		videoAttributes.setFrameRate(videoAttribute.getFrameRate());
-		videoAttributes
-				.setSize(new VideoSize(videoAttribute.getSize().getWidth(), videoAttribute.getSize().getHeight()));
-		audioAttributes.setCodec(IVConstants.AUDIO_CODEC);
-		audioAttributes.setBitRate(audioAttribute.getBitRate());
-		audioAttributes.setChannels(audioAttribute.getChannels());
-		audioAttributes.setSamplingRate(audioAttribute.getSamplingRate());
+		if (videoAttribute != null) {
+			videoAttributes.setCodec(IVConstants.VIDEO_CODEC);
+			videoAttributes.setX264Profile(X264_PROFILE.BASELINE);
+			videoAttributes.setBitRate(videoAttribute.getBitRate());
+			videoAttributes.setFrameRate(videoAttribute.getFrameRate());
+			videoAttributes
+					.setSize(new VideoSize(videoAttribute.getSize().getWidth(), videoAttribute.getSize().getHeight()));
+			encodingAttributes.setVideoAttributes(videoAttributes);
+		}
+		if (audioAttribute != null) {
+			audioAttributes.setCodec(IVConstants.AUDIO_CODEC);
+			audioAttributes.setBitRate(audioAttribute.getBitRate());
+			audioAttributes.setChannels(audioAttribute.getChannels());
+			audioAttributes.setSamplingRate(audioAttribute.getSamplingRate());
+			encodingAttributes.setAudioAttributes(audioAttributes);
+		}
 		encodingAttributes.setFormat(fileFormat);
-		encodingAttributes.setVideoAttributes(videoAttributes);
-		encodingAttributes.setAudioAttributes(audioAttributes);
 	}
 
 	/**

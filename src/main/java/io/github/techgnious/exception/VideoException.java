@@ -16,6 +16,8 @@
 package io.github.techgnious.exception;
 
 /**
+ * Exception class to handle errors thrown during video compression
+ * 
  * @author srikanth.anreddy
  *
  */
@@ -30,14 +32,28 @@ public class VideoException extends Exception {
 		super();
 	}
 
+	/**
+	 * Throws Video Exception error with custom message and casue
+	 * 
+	 * @param message
+	 * @param cause
+	 */
 	public VideoException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Throws Video Exception error with custom message
+	 * 
+	 * @param message
+	 */
 	public VideoException(String message) {
 		super(message);
 	}
 
+	/**
+	 * @param cause
+	 */
 	public VideoException(Throwable cause) {
 		super(cause);
 	}
