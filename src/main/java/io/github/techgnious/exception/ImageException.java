@@ -16,6 +16,8 @@
 package io.github.techgnious.exception;
 
 /**
+ * Exception class to handle errors thrown during image compression
+ * 
  * @author srikanth.anreddy
  *
  */
@@ -30,14 +32,28 @@ public class ImageException extends Exception {
 		super();
 	}
 
+	/**
+	 * Throws Image Exception error with custom message and cause
+	 * 
+	 * @param message
+	 * @param cause
+	 */
 	public ImageException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Throws Image Exception error with custom message
+	 * 
+	 * @param message
+	 */
 	public ImageException(String message) {
 		super(message);
 	}
 
+	/**
+	 * @param cause
+	 */
 	public ImageException(Throwable cause) {
 		super(cause);
 	}
