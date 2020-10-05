@@ -10,10 +10,10 @@
 
 	<name>ImageVideoCompressor</name>
 	<description>Project to Compress Images and Videos to smaller resolution/size</description>
-	<url>https://github.com/srikanthreddyyy/ivcompressor</url>
+	<url>https://github.com/techgnious/ivcompressor</url>
 
 	<scm>
-		<url>git@github.com:srikanthreddyyy/ivcompressor.git</url>
+		<url>git@github.com:techgnious/ivcompressor.git</url>
 	</scm>
 
 	<developers>
@@ -47,23 +47,26 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>5.2.9.RELEASE</version>
-		</dependency>
-		<dependency>
 			<groupId>ws.schild</groupId>
 			<artifactId>jave-core</artifactId>
 			<version>2.7.1</version>
 		</dependency>
+		<!-- Helps in executing the FFMPEG executor for Windows Based Machines -->
 		<dependency>
 			<groupId>ws.schild</groupId>
 			<artifactId>jave-nativebin-win64</artifactId>
 			<version>2.7.1</version>
 		</dependency>
+		<!-- For Linux Based Machines -->
 		<dependency>
 			<groupId>ws.schild</groupId>
 			<artifactId>jave-nativebin-linux64</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+		<!-- For MAC based Machines -->
+		<dependency>
+			<groupId>ws.schild</groupId>
+			<artifactId>jave-nativebin-osx64</artifactId>
 			<version>2.7.1</version>
 		</dependency>
 		<dependency>
