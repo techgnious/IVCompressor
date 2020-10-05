@@ -2,10 +2,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
 	<groupId>io.github.techgnious</groupId>
 	<artifactId>IVCompressor</artifactId>
-	<version>1.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>ImageVideoCompressor</name>
@@ -19,7 +23,7 @@
 	<developers>
 		<developer>
 			<name>Srikanth Reddy Anreddy</name>
-			<email>srikanthreddy111@yahoo.in</email>
+			<email>srikanthreddy111@yahoo.co.in</email>
 		</developer>
 	</developers>
 
