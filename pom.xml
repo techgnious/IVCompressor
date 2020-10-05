@@ -10,10 +10,10 @@
 
 	<name>ImageVideoCompressor</name>
 	<description>Project to Compress Images and Videos to smaller resolution/size</description>
-	<url>https://github.com/SrikanthReddyyy/ivcompressor</url>
+	<url>https://github.com/techgnious/ivcompressor</url>
 
 	<scm>
-		<url>git@github.com:SrikanthReddyyy/ivcompressor.git</url>
+		<url>git@github.com:techgnious/ivcompressor.git</url>
 	</scm>
 
 	<developers>
