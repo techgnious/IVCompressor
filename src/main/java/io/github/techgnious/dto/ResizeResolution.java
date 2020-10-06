@@ -16,25 +16,30 @@
 package io.github.techgnious.dto;
 
 /**
- * Enum Class that defines the type of video formats allowed
+ * Enum Class that defines the allowed Image resolutions for resizing
  * 
  * @author srikanth.anreddy
  *
  */
-public enum VideoFormats {
+public enum ResizeResolution {
 
-	MP4("mp4"), MKV("mkv"), FLV("flv"), MOV("mov"), AVI("avi"), WMV("wmv");
+	R240P(426, 240), R360P(480, 360), R480P(640, 480), R720P(1280, 720), R1080P(1920, 1080), R1440P(2560, 1440),
+	IMAGE_DEFAULT(480, 360), VIDEO_DEFAULT(400, 300);
 
-	private String type;
+	private int width;
+	private int height;
 
-	VideoFormats(String type) {
-		this.type = type;
+	private ResizeResolution(int w, int h) {
+		this.width = w;
+		this.height = h;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
+	public int getWidth() {
+		return width;
 	}
+
+	public int getHeight() {
+		return height;
+	}
+
 }

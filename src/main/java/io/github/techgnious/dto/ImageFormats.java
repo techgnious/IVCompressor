@@ -16,6 +16,8 @@
 package io.github.techgnious.dto;
 
 /**
+ * Enum Class that defines the type of image formats allowed
+ * 
  * @author srikanth.anreddy
  *
  */
@@ -23,6 +25,17 @@ public enum ImageFormats {
 
 	JPG("jpg"), JPEG("jpeg"), PNG("png");
 
-	ImageFormats(String format) {
+	private String type;
+
+	ImageFormats(String type) {
+		this.type = type;
 	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
 }

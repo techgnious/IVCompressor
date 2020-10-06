@@ -16,6 +16,9 @@
 package io.github.techgnious.dto;
 
 /**
+ * Class to define audio encoding attributes for enhancing the audio in video
+ * compression
+ * 
  * @author srikanth.anreddy
  *
  */

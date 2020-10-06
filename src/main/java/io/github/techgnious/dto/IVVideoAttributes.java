@@ -16,6 +16,8 @@
 package io.github.techgnious.dto;
 
 /**
+ * Class to define video encoding attributes for enhancing the video compression
+ * 
  * @author srikanth.anreddy
  *
  */
