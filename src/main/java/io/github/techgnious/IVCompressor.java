@@ -118,9 +118,9 @@ public class IVCompressor {
 	 * 
 	 * Returns resized byte stream
 	 * 
-	 * @param file            - file data in byte array that is to be compressed
+	 * @param data            - file data in byte array that is to be compressed
 	 * @param fileFormat      - file type
-	 * @param imageResolution - Resolution of output image. Optional Field. Can be
+	 * @param resolution - Resolution of output image. Optional Field. Can be
 	 *                        passed as null to use the default values
 	 * @return - returns the compressed image in byte array
 	 * @throws ImageException
