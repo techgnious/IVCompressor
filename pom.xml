@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.techgnious</groupId>
 	<artifactId>IVCompressor</artifactId>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>ImageVideoCompressor</name>
@@ -12,7 +12,7 @@
 	<url>https://github.com/techgnious/ivcompressor</url>
 
 	<scm>
-		<url>git@github.com:techgnious/ivcompressor.git</url>
+		<url>https://github.com/techgnious/ivcompressor.git</url>
 	</scm>
 
 	<developers>
