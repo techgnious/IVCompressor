@@ -31,6 +31,7 @@ import org.apache.commons.io.FileUtils;
 
 import io.github.techgnious.constants.IVConstants;
 import io.github.techgnious.dto.IVAudioAttributes;
+import io.github.techgnious.dto.IVSize;
 import io.github.techgnious.dto.IVVideoAttributes;
 import io.github.techgnious.dto.ImageFormats;
 import io.github.techgnious.dto.ResizeResolution;
@@ -118,32 +119,34 @@ public class IVCompressor {
 	 * 
 	 * Returns resized byte stream
 	 * 
-	 * @param data            - file data in byte array that is to be compressed
-	 * @param fileFormat      - file type
-	 * @param resolution - Resolution of output image. Optional Field. Can be
-	 *                        passed as null to use the default values
+	 * @param data       - file data in byte array that is to be compressed
+	 * @param fileFormat - file type
+	 * @param resolution - Resolution of output image. Optional Field. Can be passed
+	 *                   as null to use the default values
 	 * @return - returns the compressed image in byte array
 	 * @throws ImageException
 	 */
 	public byte[] resizeImage(byte[] data, ImageFormats fileFormat, ResizeResolution resolution) throws ImageException {
 		if (resolution != null)
 			imageResolution = resolution;
-		int width = imageResolution.getWidth();
-		int height = imageResolution.getHeight();
-		String contentType = fileFormat.getType();
-		try {
-			BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(data));
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-			BufferedImage resizedImage = new BufferedImage(width, height, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(originalImage, 0, 0, width, height, null);
-			g.dispose();
-			ImageIO.write(resizedImage, contentType, outputStream);
-			return outputStream.toByteArray();
-		} catch (Exception e) {
-			throw new ImageException("ByteStream doesn't contain valid Image");
-		}
+		return rescaleImage(data, imageResolution.getWidth(), imageResolution.getHeight(), fileFormat.getType());
+	}
+
+	/**
+	 * This method attempts to resize the image byte stream to lower resolution with
+	 * custom user defined resolution
+	 * 
+	 * Returns resized byte stream
+	 * 
+	 * @param data       - file data in byte array that is to be compressed
+	 * @param fileFormat - file type
+	 * @param res        - Custom Resolution of output image. Optional Field. Can be
+	 *                   passed as null to use the default values
+	 * @return - returns the compressed image in byte array
+	 * @throws ImageException
+	 */
+	public byte[] resizeImageWithCustomRes(byte[] data, ImageFormats fileFormat, IVSize res) throws ImageException {
+		return rescaleImage(data, res.getWidth(), res.getHeight(), fileFormat.getType());
 	}
 
 	/**
@@ -260,6 +263,32 @@ public class IVCompressor {
 	 *                        the enconding
 	 */
 	public byte[] reduceVideoSize(byte[] data, VideoFormats fileFormat, ResizeResolution resolution)
+			throws VideoException {
+		String fileType = fileFormat.getType();
+		encodingAttributes.setFormat(fileType);
+		if (resolution != null)
+			encodingAttributes.getVideoAttributes()
+					.setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		return encodeVideo(data, fileType);
+	}
+
+	/**
+	 * This method is used for resizing using custom resolution but with remaining
+	 * attributes as default
+	 * 
+	 * Encodes the video with default attributes thereby reducing the size of the
+	 * video with better quality
+	 * 
+	 * Maintains the best compressed quality
+	 * 
+	 * @param data       -indicates the video content to be compressed
+	 * @param fileFormat -to indicate the video type
+	 * @param resolution -Resolution(width x height) of the output video
+	 * @return -byte stream object with compressed video data
+	 * @throws VideoException -throws exception when the data is incompatible for
+	 *                        the enconding
+	 */
+	public byte[] reduceVideoSizeWithCustomRes(byte[] data, VideoFormats fileFormat, IVSize resolution)
 			throws VideoException {
 		String fileType = fileFormat.getType();
 		encodingAttributes.setFormat(fileType);
@@ -465,6 +494,32 @@ public class IVCompressor {
 				// ignore
 			}
 
+		}
+	}
+
+	/**
+	 * Rescales the images to lower resolution
+	 * 
+	 * @param data
+	 * @param width
+	 * @param height
+	 * @param contentType
+	 * @return
+	 * @throws ImageException
+	 */
+	private byte[] rescaleImage(byte[] data, int width, int height, String contentType) throws ImageException {
+		try {
+			BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(data));
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+			BufferedImage resizedImage = new BufferedImage(width, height, type);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(originalImage, 0, 0, width, height, null);
+			g.dispose();
+			ImageIO.write(resizedImage, contentType, outputStream);
+			return outputStream.toByteArray();
+		} catch (Exception e) {
+			throw new ImageException("Byte Array doesn't contain valid Image");
 		}
 	}
 

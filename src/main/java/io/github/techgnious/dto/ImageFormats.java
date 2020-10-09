@@ -25,6 +25,9 @@ public enum ImageFormats {
 
 	JPG("jpg"), JPEG("jpeg"), PNG("png");
 
+	/**
+	 * Extension type of the Image
+	 */
 	private String type;
 
 	ImageFormats(String type) {
@@ -32,7 +35,7 @@ public enum ImageFormats {
 	}
 
 	/**
-	 * @return the type
+	 * @return the extension type of the image
 	 */
 	public String getType() {
 		return type;

@@ -25,6 +25,9 @@ public enum VideoFormats {
 
 	MP4("mp4"), MKV("mkv"), FLV("flv"), MOV("mov"), AVI("avi"), WMV("wmv");
 
+	/**
+	 * Extension type of the video
+	 */
 	private String type;
 
 	VideoFormats(String type) {
@@ -32,7 +35,7 @@ public enum VideoFormats {
 	}
 
 	/**
-	 * @return the type
+	 * @return the extension type of the video
 	 */
 	public String getType() {
 		return type;
