@@ -143,6 +143,10 @@ Know more about me @[About Me](https://techgnious.github.io/)
 For any requirements for freelancing, drop me the details @[Mailbox](mailto:srikanthreddy111@yahoo.co.in)
 ### Support or Contact
 
+**[Get on Maven](https://mvnrepository.com/artifact/io.github.techgnious/IVCompressor)** - Get the artifact through Maven Repository
+
+**[Github Repo](https://github.com/techgnious/IVCompressor/)** - View the code on Github Repository
+
 Need more clarity on functionalities? Check out our [documentation](https://javadoc.io/doc/io.github.techgnious/IVCompressor) or [contact me](https://techgnious.github.io/) and we’ll help you sort it out.
 
 Please reach out on my [Mailbox](mailto:srikanthreddy111@yahoo.co.in) for any further support or clarifications if necessary.
