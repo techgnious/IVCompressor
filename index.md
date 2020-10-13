@@ -134,6 +134,7 @@ Here the input format of the video is MP4 and the output format is MOV (Video wi
 	videoAttribute.setSize(customRes);
 	compressor.encodeVideoWithAttributes(file.getBytes(), VideoFormats.MP4,audioAttribute, videoAttribute);
 
+ 
  ### About me
  
  I am a Software Developer specializing in Java based technologies. I have been working on many technolgies including Microservices and AWS.
