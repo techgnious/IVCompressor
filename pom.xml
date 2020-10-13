@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.techgnious</groupId>
 	<artifactId>IVCompressor</artifactId>
-	<version>1.1.0</version>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>ImageVideoCompressor</name>
@@ -31,7 +31,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<schild.version>2.7.1</schild.version>
+		<schild.version>3.0.1</schild.version>
 	</properties>
 
 	<distributionManagement>

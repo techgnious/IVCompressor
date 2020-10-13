@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
@@ -39,13 +40,13 @@ import io.github.techgnious.dto.VideoFormats;
 import io.github.techgnious.exception.ImageException;
 import io.github.techgnious.exception.VideoException;
 import io.github.techgnious.utils.IVFileUtils;
-import ws.schild.jave.AudioAttributes;
 import ws.schild.jave.Encoder;
-import ws.schild.jave.EncodingAttributes;
 import ws.schild.jave.MultimediaObject;
-import ws.schild.jave.VideoAttributes;
-import ws.schild.jave.VideoAttributes.X264_PROFILE;
-import ws.schild.jave.VideoSize;
+import ws.schild.jave.encode.AudioAttributes;
+import ws.schild.jave.encode.EncodingAttributes;
+import ws.schild.jave.encode.VideoAttributes;
+import ws.schild.jave.encode.enums.X264_PROFILE;
+import ws.schild.jave.info.VideoSize;
 
 /**
  * Base Class to handle compression or conversion of Image/Video Files
@@ -264,11 +265,38 @@ public class IVCompressor {
 	 */
 	public byte[] reduceVideoSize(byte[] data, VideoFormats fileFormat, ResizeResolution resolution)
 			throws VideoException {
-		String fileType = fileFormat.getType();
-		encodingAttributes.setFormat(fileType);
-		if (resolution != null)
-			encodingAttributes.getVideoAttributes()
-					.setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		String fileType = setAttributes(fileFormat, resolution);
+		return encodeVideo(data, fileType);
+	}
+
+	/**
+	 * This method helps in converting the video to another format content to
+	 * 
+	 * Helps in reducing size of video with lower resolution
+	 * 
+	 * Encodes the video with default attributes thereby reducing the size of the
+	 * video with better quality
+	 * 
+	 * Maintains the best compressed quality
+	 * 
+	 * @param data         -indicates the video content to be compressed
+	 * @param inputFormat  -to indicate the format of input video
+	 * @param outputFormat -to indicate the format of output video
+	 * @param resolution   -Resolution of the output video
+	 * @return -byte stream object with compressed video data
+	 * @throws VideoException -throws exception when the data is incompatible for
+	 *                        the encoding
+	 */
+	public byte[] convertAndResizeVideo(byte[] data, VideoFormats inputFormat, VideoFormats outputFormat,
+			ResizeResolution resolution) throws VideoException {
+		String fileType = inputFormat.getType();
+		encodingAttributes.setInputFormat(fileType);
+		encodingAttributes.setOutputFormat(outputFormat.getType());
+		if (resolution != null) {
+			Optional<VideoAttributes> videoAttr = encodingAttributes.getVideoAttributes();
+			if (videoAttr.isPresent())
+				videoAttr.get().setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		}
 		return encodeVideo(data, fileType);
 	}
 
@@ -291,10 +319,13 @@ public class IVCompressor {
 	public byte[] reduceVideoSizeWithCustomRes(byte[] data, VideoFormats fileFormat, IVSize resolution)
 			throws VideoException {
 		String fileType = fileFormat.getType();
-		encodingAttributes.setFormat(fileType);
-		if (resolution != null)
-			encodingAttributes.getVideoAttributes()
-					.setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		encodingAttributes.setInputFormat(fileType);
+		encodingAttributes.setOutputFormat(fileType);
+		if (resolution != null) {
+			Optional<VideoAttributes> videoAttr = encodingAttributes.getVideoAttributes();
+			if (videoAttr.isPresent())
+				videoAttr.get().setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		}
 		return encodeVideo(data, fileType);
 	}
 
@@ -316,11 +347,7 @@ public class IVCompressor {
 	 */
 	public byte[] reduceVideoSize(File file, VideoFormats fileFormat, ResizeResolution resolution)
 			throws VideoException, IOException {
-		String fileType = fileFormat.getType();
-		encodingAttributes.setFormat(fileType);
-		if (resolution != null)
-			encodingAttributes.getVideoAttributes()
-					.setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		String fileType = setAttributes(fileFormat, resolution);
 		return encodeVideo(IVFileUtils.copyToByteArray(file), fileType);
 	}
 
@@ -343,11 +370,7 @@ public class IVCompressor {
 	 */
 	public String reduceVideoSizeAndSaveToAPath(File file, VideoFormats fileFormat, ResizeResolution resolution,
 			String path) throws VideoException, IOException {
-		String fileType = fileFormat.getType();
-		encodingAttributes.setFormat(fileType);
-		if (resolution != null)
-			encodingAttributes.getVideoAttributes()
-					.setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		String fileType = setAttributes(fileFormat, resolution);
 		byte[] data = encodeVideo(IVFileUtils.copyToByteArray(file), fileType);
 		String fileName = file.getName();
 		if (!fileName.contains(fileFormat.getType()))
@@ -376,11 +399,7 @@ public class IVCompressor {
 	 */
 	public String reduceVideoSizeAndSaveToAPath(byte[] fileData, String fileName, VideoFormats fileFormat,
 			ResizeResolution resolution, String path) throws VideoException, IOException {
-		String fileType = fileFormat.getType();
-		encodingAttributes.setFormat(fileType);
-		if (resolution != null)
-			encodingAttributes.getVideoAttributes()
-					.setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		String fileType = setAttributes(fileFormat, resolution);
 		byte[] data = encodeVideo(fileData, fileType);
 		if (!fileName.contains(fileFormat.getType()))
 			fileName = fileName.substring(0, fileName.indexOf(".")) + "." + fileFormat.getType();
@@ -416,14 +435,18 @@ public class IVCompressor {
 	 * format without compressing the data
 	 * 
 	 * @param data       - data that is to be converted
-	 * @param fileFormat - video format the data is to be converted
+	 * @param inputFormat - video format the data is to be converted
+	 * @param outputFormat - video format the data is to be converted
 	 * @return
 	 * @throws VideoException
 	 */
-	public byte[] convertVideoFormat(byte[] data, VideoFormats fileFormat) throws VideoException {
-		String filetype = fileFormat.getType();
+	public byte[] convertVideoFormat(byte[] data, VideoFormats inputFormat, VideoFormats outputFormat)
+			throws VideoException {
+		String filetype = inputFormat.getType();
 		AudioAttributes audioAttr = new AudioAttributes();
 		VideoAttributes videoAttr = new VideoAttributes();
+		encodingAttributes.setInputFormat(inputFormat.getType());
+		encodingAttributes.setOutputFormat(outputFormat.getType());
 		encodingAttributes.setAudioAttributes(audioAttr);
 		encodingAttributes.setVideoAttributes(videoAttr);
 		return encodeVideo(data, filetype);
@@ -460,7 +483,8 @@ public class IVCompressor {
 				audioAttributes.setSamplingRate(audioAttribute.getSamplingRate());
 			encodingAttributes.setAudioAttributes(audioAttributes);
 		}
-		encodingAttributes.setFormat(fileFormat);
+		encodingAttributes.setInputFormat(fileFormat);
+		encodingAttributes.setOutputFormat(fileFormat);
 	}
 
 	/**
@@ -556,6 +580,23 @@ public class IVCompressor {
 			throw new IOException("Invalid Path");
 		}
 
+	}
+
+	/**
+	 * @param fileFormat
+	 * @param resolution
+	 * @return
+	 */
+	private String setAttributes(VideoFormats fileFormat, ResizeResolution resolution) {
+		String fileType = fileFormat.getType();
+		encodingAttributes.setInputFormat(fileType);
+		encodingAttributes.setOutputFormat(fileType);
+		if (resolution != null) {
+			Optional<VideoAttributes> videoAttr = encodingAttributes.getVideoAttributes();
+			if (videoAttr.isPresent())
+				videoAttr.get().setSize(new VideoSize(resolution.getWidth(), resolution.getHeight()));
+		}
+		return fileType;
 	}
 
 }
