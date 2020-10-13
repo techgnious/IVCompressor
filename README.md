@@ -15,4 +15,4 @@ It is the only java library which is customly built to include both image and vi
 - Uses java based classes for Image compression to smaller resolution.
 - Uses FFMPEG for Video compression and conversion
 
-To Know more about IVCompressor [Click Here](https://techgnious.github.io/IVCompressor/)
+To Know more about IVCompressor [Click Here](https://techgnious.github.io/IVCompressor)
