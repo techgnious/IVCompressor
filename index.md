@@ -80,7 +80,7 @@ Next step is to identify relevant method that is to be used from the IVCompresso
     compressor.resizeAndSaveImageToAPath(file, ImageFormats.JPEG, path, ResizeResolution.R480P);
     
 * Variable file can be passed as either byte array or a File
-* Compressed image will be save to specified location mentioned in variable path.
+* Compressed image will be saved to specified location mentioned in variable path.
 
 **3) Compress an image with custom resolution**
 
@@ -136,7 +136,7 @@ Here the input format of the video is MP4 and the output format is MOV (Video wi
 
 ### About me
  
- I am a Software Developer specializing in Java based technologies. I have been working on many technolgies including Microservices and AWS.
+ I am a Software Developer specializing in Java based technologies. I have been working on many technologies including Microservices and AWS.
  
 Know more about me @[About Me](https://techgnious.github.io/)
 
