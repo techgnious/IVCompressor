@@ -35,8 +35,8 @@ public class VideoException extends Exception {
 	/**
 	 * Throws Video Exception error with custom message and casue
 	 * 
-	 * @param message
-	 * @param cause
+	 * @param message - description of the error
+	 * @param cause   - root cause of the issue
 	 */
 	public VideoException(String message, Throwable cause) {
 		super(message, cause);
@@ -45,14 +45,14 @@ public class VideoException extends Exception {
 	/**
 	 * Throws Video Exception error with custom message
 	 * 
-	 * @param message
+	 * @param message - description of the error
 	 */
 	public VideoException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param cause
+	 * @param cause - root cause of the issue
 	 */
 	public VideoException(Throwable cause) {
 		super(cause);

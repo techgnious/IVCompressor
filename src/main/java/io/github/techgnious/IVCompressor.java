@@ -49,11 +49,11 @@ import ws.schild.jave.encode.enums.X264_PROFILE;
 import ws.schild.jave.info.VideoSize;
 
 /**
- * Base Class to handle compression or conversion of Image/Video Files
+ * Base Class to handle compression or conversion of Image/Video Files.
  * 
  * Operations supported:
  * 
- * Resize Image Convert Image Resize Video Resize and Convert Video
+ * Resize Image. Resize Video and Convert Video.
  * 
  * @author srikanth.anreddy
  *
@@ -116,16 +116,16 @@ public class IVCompressor {
 	}
 
 	/**
-	 * This method attempts to resize the image byte stream to lower resolution
+	 * This method attempts to resize the image byte stream to lower resolution.
 	 * 
-	 * Returns resized byte stream
+	 * Returns resized byte stream.
 	 * 
 	 * @param data       - file data in byte array that is to be compressed
 	 * @param fileFormat - file type
 	 * @param resolution - Resolution of output image. Optional Field. Can be passed
 	 *                   as null to use the default values
 	 * @return - returns the compressed image in byte array
-	 * @throws ImageException
+	 * @throws ImageException - throws exception if there is issue in process
 	 */
 	public byte[] resizeImage(byte[] data, ImageFormats fileFormat, ResizeResolution resolution) throws ImageException {
 		if (resolution != null)
@@ -144,7 +144,7 @@ public class IVCompressor {
 	 * @param res        - Custom Resolution of output image. Optional Field. Can be
 	 *                   passed as null to use the default values
 	 * @return - returns the compressed image in byte array
-	 * @throws ImageException
+	 * @throws ImageException - throws exception if there is issue in process
 	 */
 	public byte[] resizeImageWithCustomRes(byte[] data, ImageFormats fileFormat, IVSize res) throws ImageException {
 		return rescaleImage(data, res.getWidth(), res.getHeight(), fileFormat.getType());
@@ -154,15 +154,15 @@ public class IVCompressor {
 	 * This method attempts to resize the image file to lower resolution and saves
 	 * it back in the path provided.
 	 * 
-	 * Returns path location of the object
+	 * Returns path location of the object.
 	 * 
 	 * @param file            - file that is to be compressed
 	 * @param fileFormat      - file type
 	 * @param path            - location where the file to be saved
 	 * @param imageResolution - Resolution of output image.Optional Field. Can be
 	 *                        passed as null to use the default values
-	 * @return
-	 * @throws ImageException
+	 * @return - returns path location
+	 * @throws ImageException - throws exception if there is issue in process
 	 */
 	public String resizeAndSaveImageToAPath(File file, ImageFormats fileFormat, String path,
 			ResizeResolution imageResolution) throws ImageException {
@@ -181,15 +181,16 @@ public class IVCompressor {
 	 * This method attempts to resize the image file to lower resolution and saves
 	 * it back in the path provided.
 	 * 
-	 * Returns path location of the object
+	 * Returns path location of the object.
 	 * 
 	 * @param fileData        - file that is to be compressed
+	 * @param fileName        - name of the file
 	 * @param fileFormat      - file type
 	 * @param path            - location where the file to be saved
 	 * @param imageResolution - Resolution of output image.Optional Field. Can be
 	 *                        passed as null to use the default values
-	 * @return
-	 * @throws ImageException
+	 * @return - path where file is stored
+	 * @throws ImageException - throws exception if there is issue in process
 	 */
 	public String resizeAndSaveImageToAPath(byte[] fileData, String fileName, ImageFormats fileFormat, String path,
 			ResizeResolution imageResolution) throws ImageException {
@@ -204,17 +205,17 @@ public class IVCompressor {
 	}
 
 	/**
-	 * This method attempts to resize the image file to lower resolution
+	 * This method attempts to resize the image file to lower resolution.
 	 * 
-	 * Returns resized image in byte aaray
+	 * Returns resized image in byte array.
 	 * 
 	 * @param file            - file that is to be compressed
 	 * @param fileFormat      - file type
 	 * @param imageResolution - Resolution of output image.Optional Field. Can be
 	 *                        passed as null to use the default values
-	 * @return
-	 * @throws ImageException
-	 * @throws IOException
+	 * @return - byte array as response
+	 * @throws ImageException - throws exception if there is issue in process
+	 * @throws IOException    - throws exception if there is issue with file
 	 */
 	public byte[] resizeImageUsingFile(File file, ImageFormats fileFormat, ResizeResolution imageResolution)
 			throws ImageException, IOException {
@@ -224,16 +225,16 @@ public class IVCompressor {
 
 	/**
 	 * This method attempts to resize the image received as Inputstream object to
-	 * lower resolution
+	 * lower resolution.
 	 * 
-	 * Returns resized stream object
+	 * Returns resized stream object.
 	 * 
 	 * @param stream          - Image input stream that is to be compressed
 	 * @param fileFormat      - type of the file
 	 * @param imageResolution - Resolution of the output image file.Optional Field.
 	 *                        Can be passed as null to use the default values
 	 * @return InputStream - returns output as a stream
-	 * @throws ImageException
+	 * @throws ImageException - throws exception if there is issue in process
 	 */
 	public InputStream resizeImage(InputStream stream, ImageFormats fileFormat, ResizeResolution imageResolution)
 			throws ImageException {
@@ -249,19 +250,19 @@ public class IVCompressor {
 
 	/**
 	 * This method helps in converting the video content to reduced size with lower
-	 * resolution
+	 * resolution.
 	 * 
 	 * Encodes the video with default attributes thereby reducing the size of the
-	 * video with better quality
+	 * video with better quality.
 	 * 
-	 * Maintains the best compressed quality
+	 * Maintains the best compressed quality.
 	 * 
 	 * @param data       -indicates the video content to be compressed
 	 * @param fileFormat -to indicate the video type
 	 * @param resolution -Resolution of the output video
 	 * @return -byte stream object with compressed video data
 	 * @throws VideoException -throws exception when the data is incompatible for
-	 *                        the enconding
+	 *                        the encoding
 	 */
 	public byte[] reduceVideoSize(byte[] data, VideoFormats fileFormat, ResizeResolution resolution)
 			throws VideoException {
@@ -270,14 +271,14 @@ public class IVCompressor {
 	}
 
 	/**
-	 * This method helps in converting the video to another format content to
+	 * This method helps in converting the video to another format.
 	 * 
-	 * Helps in reducing size of video with lower resolution
+	 * Helps in reducing size of video with lower resolution.
 	 * 
 	 * Encodes the video with default attributes thereby reducing the size of the
-	 * video with better quality
+	 * video with better quality.
 	 * 
-	 * Maintains the best compressed quality
+	 * Maintains the best compressed quality.
 	 * 
 	 * @param data         -indicates the video content to be compressed
 	 * @param inputFormat  -to indicate the format of input video
@@ -302,19 +303,19 @@ public class IVCompressor {
 
 	/**
 	 * This method is used for resizing using custom resolution but with remaining
-	 * attributes as default
+	 * attributes as default.
 	 * 
 	 * Encodes the video with default attributes thereby reducing the size of the
-	 * video with better quality
+	 * video with better quality.
 	 * 
-	 * Maintains the best compressed quality
+	 * Maintains the best compressed quality.
 	 * 
 	 * @param data       -indicates the video content to be compressed
 	 * @param fileFormat -to indicate the video type
 	 * @param resolution -Resolution(width x height) of the output video
 	 * @return -byte stream object with compressed video data
 	 * @throws VideoException -throws exception when the data is incompatible for
-	 *                        the enconding
+	 *                        the encoding
 	 */
 	public byte[] reduceVideoSizeWithCustomRes(byte[] data, VideoFormats fileFormat, IVSize resolution)
 			throws VideoException {
@@ -331,19 +332,20 @@ public class IVCompressor {
 
 	/**
 	 * This method helps in converting the video content to reduced size with lower
-	 * resolution
+	 * resolution.
 	 * 
 	 * Encodes the video with default attributes thereby reducing the size of the
-	 * video with better quality
+	 * video with better quality.
 	 * 
-	 * Maintains the best compressed quality
+	 * Maintains the best compressed quality.
 	 * 
 	 * @param file       -indicates the video file object to be compressed
 	 * @param fileFormat -to indicate the video type
 	 * @param resolution -Resolution of the output video
 	 * @return byte array object with encoded video
-	 * @throws VideoException
-	 * @throws IOException
+	 * @throws VideoException - throws exception if there is an issue with video
+	 *                        processing
+	 * @throws IOException    - throws exception if there is issue with file
 	 */
 	public byte[] reduceVideoSize(File file, VideoFormats fileFormat, ResizeResolution resolution)
 			throws VideoException, IOException {
@@ -365,8 +367,9 @@ public class IVCompressor {
 	 * @param resolution -Resolution of the output video
 	 * @param path       -location to store the output file
 	 * @return path location for the file stored
-	 * @throws VideoException
-	 * @throws IOException
+	 * @throws VideoException - throws exception if there is an issue with video
+	 *                        processing
+	 * @throws IOException    - throws exception if there is issue with file
 	 */
 	public String reduceVideoSizeAndSaveToAPath(File file, VideoFormats fileFormat, ResizeResolution resolution,
 			String path) throws VideoException, IOException {
@@ -390,12 +393,14 @@ public class IVCompressor {
 	 * 
 	 * @param fileData   -indicates the video file object byte array to be
 	 *                   compressed
+	 * @param fileName   - name of the file
 	 * @param fileFormat -to indicate the video type
 	 * @param resolution -Resolution of the output video
 	 * @param path       -location to store the output file
 	 * @return path location for the file stored
-	 * @throws VideoException
-	 * @throws IOException
+	 * @throws VideoException - throws exception if there is an issue with video
+	 *                        processing
+	 * @throws IOException    - throws exception if there is issue with file
 	 */
 	public String reduceVideoSizeAndSaveToAPath(byte[] fileData, String fileName, VideoFormats fileFormat,
 			ResizeResolution resolution, String path) throws VideoException, IOException {
@@ -420,8 +425,9 @@ public class IVCompressor {
 	 * @param fileFormat     to indicate the video type
 	 * @param audioAttribute to customize audio encoding
 	 * @param videoAttribute to customize video encoding
-	 * @return
-	 * @throws VideoException
+	 * @return - returns byte array as response
+	 * @throws VideoException - throws exception if there is an issue with video
+	 *                        processing
 	 */
 	public byte[] encodeVideoWithAttributes(byte[] data, VideoFormats fileFormat, IVAudioAttributes audioAttribute,
 			IVVideoAttributes videoAttribute) throws VideoException {
@@ -434,11 +440,12 @@ public class IVCompressor {
 	 * This method is used to convert the video from existing format to another
 	 * format without compressing the data
 	 * 
-	 * @param data       - data that is to be converted
-	 * @param inputFormat - video format the data is to be converted
+	 * @param data         - data that is to be converted
+	 * @param inputFormat  - video format the data is to be converted
 	 * @param outputFormat - video format the data is to be converted
-	 * @return
-	 * @throws VideoException
+	 * @return - returns byte array as response
+	 * @throws VideoException - throws exception if there is an issue with video
+	 *                        processing
 	 */
 	public byte[] convertVideoFormat(byte[] data, VideoFormats inputFormat, VideoFormats outputFormat)
 			throws VideoException {
@@ -493,8 +500,9 @@ public class IVCompressor {
 	 * 
 	 * @param data
 	 * @param fileFormat
-	 * @return
-	 * @throws VideoException
+	 * @return - returns byte array as response
+	 * @throws VideoException - throws exception if there is an issue with video
+	 *                        processing
 	 */
 	private byte[] encodeVideo(byte[] data, String fileFormat) throws VideoException {
 		File target = null;
@@ -528,8 +536,8 @@ public class IVCompressor {
 	 * @param width
 	 * @param height
 	 * @param contentType
-	 * @return
-	 * @throws ImageException
+	 * @return - returns byte array as response
+	 * @throws ImageException - throws exception if there is issue in process
 	 */
 	private byte[] rescaleImage(byte[] data, int width, int height, String contentType) throws ImageException {
 		try {
@@ -553,8 +561,8 @@ public class IVCompressor {
 	 * @param fileName -indicates the file name of the output object
 	 * @param path     -location to store the output file
 	 * @param data     -byte array of the output file
-	 * @return
-	 * @throws IOException
+	 * @return - returns file path as response
+	 * @throws IOException - throws exception if there is issue with file
 	 */
 	private String createAndStoreNewFile(String fileName, String path, byte[] data) throws IOException {
 		checkForValidPath(path);
@@ -571,7 +579,7 @@ public class IVCompressor {
 	 * Method to check if input path is valid or not
 	 * 
 	 * @param path
-	 * @throws IOException
+	 * @throws IOException - throws exception if there is issue with path
 	 */
 	private void checkForValidPath(String path) throws IOException {
 		try {

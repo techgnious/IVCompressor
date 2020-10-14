@@ -35,8 +35,8 @@ public class ImageException extends Exception {
 	/**
 	 * Throws Image Exception error with custom message and cause
 	 * 
-	 * @param message
-	 * @param cause
+	 * @param message - description of the error
+	 * @param cause   - root cause of the issue
 	 */
 	public ImageException(String message, Throwable cause) {
 		super(message, cause);
@@ -45,14 +45,14 @@ public class ImageException extends Exception {
 	/**
 	 * Throws Image Exception error with custom message
 	 * 
-	 * @param message
+	 * @param message - description of the error
 	 */
 	public ImageException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param cause
+	 * @param cause - root cause of the issue
 	 */
 	public ImageException(Throwable cause) {
 		super(cause);
