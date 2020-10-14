@@ -2,6 +2,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.techgnious/IVCompressor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.techgnious/IVCompressor)
 
 [![Build Status](https://travis-ci.org/techgnious/IVCompressor.svg?branch=master)](https://travis-ci.org/techgnious/IVCompressor)
+[![Maven Build](https://circleci.com/gh/techgnious/IVCompressor.svg?style=shield)](https://circleci.com/gh/techgnious/IVCompressor)
 [![Known Vulnerabilities](https://snyk.io//test/github/techgnious/IVCompressor/badge.svg?targetFile=pom.xml)](https://snyk.io//test/github/techgnious/IVCompressor?targetFile=pom.xml)
 
 # IVCompressor
