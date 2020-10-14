@@ -30,6 +30,8 @@
 	</licenses>
 
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<schild.version>3.0.1</schild.version>
 	</properties>
