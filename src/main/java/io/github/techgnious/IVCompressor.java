@@ -548,10 +548,37 @@ public class IVCompressor {
 			Graphics2D g = resizedImage.createGraphics();
 			g.drawImage(originalImage, 0, 0, width, height, null);
 			g.dispose();
-			ImageIO.write(resizedImage, contentType, outputStream);
+			writeImageToOutputstream(width, height, contentType, originalImage, outputStream, resizedImage);
 			return outputStream.toByteArray();
 		} catch (Exception e) {
 			throw new ImageException("Byte Array doesn't contain valid Image");
+		}
+	}
+
+	/**
+	 * Checks for alpha for PNG Files and sets default values to it
+	 * 
+	 * @param width
+	 * @param height
+	 * @param contentType
+	 * @param originalImage
+	 * @param outputStream
+	 * @param resizedImage
+	 * @throws IOException
+	 */
+	private void writeImageToOutputstream(int width, int height, String contentType, BufferedImage originalImage,
+			ByteArrayOutputStream outputStream, BufferedImage resizedImage) throws IOException {
+		int type;
+		Graphics2D g;
+		try {
+			ImageIO.write(resizedImage, contentType, outputStream);
+		} catch (Exception e) {
+			type = BufferedImage.TYPE_INT_RGB;
+			resizedImage = new BufferedImage(width, height, type);
+			g = resizedImage.createGraphics();
+			g.drawImage(originalImage, 0, 0, width, height, null);
+			g.dispose();
+			ImageIO.write(resizedImage, contentType, outputStream);
 		}
 	}
 
