@@ -515,7 +515,7 @@ public class IVCompressor {
 			encoder.encode(source, target, encodingAttributes);
 			return FileUtils.readFileToByteArray(target);
 		} catch (Exception e) {
-			throw new VideoException("Error Occurred while resizing the video");
+			throw new VideoException("Error Occurred while resizing the video", e);
 		} finally {
 			try {
 				if (file != null)
@@ -551,7 +551,7 @@ public class IVCompressor {
 			writeImageToOutputstream(width, height, contentType, originalImage, outputStream, resizedImage);
 			return outputStream.toByteArray();
 		} catch (Exception e) {
-			throw new ImageException("Byte Array doesn't contain valid Image");
+			throw new ImageException("Byte Array doesn't contain valid Image", e);
 		}
 	}
 
