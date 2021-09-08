@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -46,7 +48,9 @@ import ws.schild.jave.encode.AudioAttributes;
 import ws.schild.jave.encode.EncodingAttributes;
 import ws.schild.jave.encode.VideoAttributes;
 import ws.schild.jave.encode.enums.X264_PROFILE;
+import ws.schild.jave.info.MultimediaInfo;
 import ws.schild.jave.info.VideoSize;
+import ws.schild.jave.progress.EncoderProgressListener;
 
 /**
  * Base Class to handle compression or conversion of Image/Video Files.
@@ -458,7 +462,36 @@ public class IVCompressor {
 		encodingAttributes.setVideoAttributes(videoAttr);
 		return encodeVideo(data, filetype);
 	}
+	
+    /**
+     * This method is used to convert the video from existing format to another
+     * format without compressing the data
+     * 
+     * @param data         - data that is to be converted
+     * @param inputFormat  - video format the data is to be converted
+     * @param outputFormat - video format the data is to be converted
+     * @param audioAttribute to customize audio encoding
+     * @param videoAttribute to customize video encoding
+     * @return - returns byte array as response
+     * @throws VideoException - throws exception if there is an issue with video
+     *                        processing
+     */
+    public byte[] convertVideoFormatWithAttributes(byte[] data, VideoFormats inputFormat, VideoFormats outputFormat, 
+            IVAudioAttributes audioAttribute, IVVideoAttributes videoAttribute)
+            throws VideoException {
+        String fileFormat = inputFormat.getType();
+        
+        // reset default audio/video attributes
+        audioAttributes = new AudioAttributes();
+        videoAttributes = new VideoAttributes();
+        
+        setAudioAndVideoAttributes(fileFormat, audioAttribute, videoAttribute);
 
+        encodingAttributes.setInputFormat(inputFormat.getType());
+        encodingAttributes.setOutputFormat(outputFormat.getType());
+
+        return encodeVideo(data, fileFormat);
+    }
 	/**
 	 * Method to set the user defined Audio and Video Attributes for encoding
 	 * 
@@ -470,7 +503,17 @@ public class IVCompressor {
 			IVVideoAttributes videoAttribute) {
 		if (videoAttribute != null) {
 			videoAttributes.setCodec(IVConstants.VIDEO_CODEC);
-			videoAttributes.setX264Profile(X264_PROFILE.BASELINE);
+            
+			if (videoAttribute.getX264Profile() != null) {
+			    videoAttributes.setX264Profile(videoAttribute.getX264Profile());
+			} else {
+			  videoAttributes.setX264Profile(X264_PROFILE.BASELINE);
+			}
+			
+            if (videoAttribute.getPixelFormat() != null) {
+                videoAttributes.setPixelFormat(videoAttribute.getPixelFormat().getType());
+            }
+            
 			if (videoAttribute.getBitRate() != null)
 				videoAttributes.setBitRate(videoAttribute.getBitRate());
 			if (videoAttribute.getFrameRate() != null)
@@ -507,15 +550,34 @@ public class IVCompressor {
 	private byte[] encodeVideo(byte[] data, String fileFormat) throws VideoException {
 		File target = null;
 		File file = null;
-		try {
+		EncoderProgressListener listener = new EncoderProgressListener() {
+		    MultimediaInfo info;
+		    List<String> messages = new ArrayList<>();
+            @Override
+            public void sourceInfo(MultimediaInfo info) {
+                this.info = info;
+            }
+
+            @Override
+            public void progress(int permil) {
+            }
+
+            @Override
+            public void message(String message) {
+                messages.add(message);
+            }
+        };
+		
+        try {
 			target = File.createTempFile(IVConstants.TARGET_FILENAME, fileFormat);
 			file = File.createTempFile(IVConstants.SOURCE_FILENAME, fileFormat);
 			FileUtils.writeByteArrayToFile(file, data);
 			MultimediaObject source = new MultimediaObject(file);
-			encoder.encode(source, target, encodingAttributes);
+			encoder.encode(source, target, encodingAttributes, listener);
 			return FileUtils.readFileToByteArray(target);
 		} catch (Exception e) {
-			throw new VideoException("Error Occurred while resizing the video", e);
+		    List<String> unhandledMessages = encoder.getUnhandledMessages();
+			throw new VideoException("Error Occurred while resizing the video", unhandledMessages, e);
 		} finally {
 			try {
 				if (file != null)
