@@ -48,6 +48,7 @@ import ws.schild.jave.encode.AudioAttributes;
 import ws.schild.jave.encode.EncodingAttributes;
 import ws.schild.jave.encode.VideoAttributes;
 import ws.schild.jave.encode.enums.X264_PROFILE;
+import ws.schild.jave.filters.VideoFilter;
 import ws.schild.jave.info.MultimediaInfo;
 import ws.schild.jave.info.VideoSize;
 import ws.schild.jave.progress.EncoderProgressListener;
@@ -521,6 +522,11 @@ public class IVCompressor {
 			if (videoAttribute.getSize() != null)
 				videoAttributes.setSize(
 						new VideoSize(videoAttribute.getSize().getWidth(), videoAttribute.getSize().getHeight()));
+			
+			for (VideoFilter vf: videoAttribute.getVideoFilters()) {
+			    videoAttributes.addFilter(vf);
+			}
+			
 			encodingAttributes.setVideoAttributes(videoAttributes);
 		}
 		if (audioAttribute != null) {

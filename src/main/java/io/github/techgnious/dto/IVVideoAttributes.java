@@ -15,7 +15,10 @@
  */
 package io.github.techgnious.dto;
 
+import java.util.ArrayList;
+
 import ws.schild.jave.encode.enums.X264_PROFILE;
+import ws.schild.jave.filters.VideoFilter;
 
 /**
  * Class to define video encoding attributes for enhancing the video compression
@@ -45,6 +48,8 @@ public class IVVideoAttributes {
 	private X264_PROFILE x264Profile = null;
 	
 	private PixelFormats pixelFormat = null;
+	
+    private final ArrayList<VideoFilter> videoFilters = new ArrayList<>();
 
 
     /**
@@ -104,5 +109,13 @@ public class IVVideoAttributes {
 
     public void setPixelFormat(PixelFormats pixelFormat) {
         this.pixelFormat = pixelFormat;
+    }
+    
+    public ArrayList<VideoFilter> getVideoFilters() {
+        return videoFilters;
+    }
+    
+    public void addVideoFilter(VideoFilter vf) {
+        videoFilters.add(vf);
     }
 }
