@@ -15,6 +15,9 @@
  */
 package io.github.techgnious.exception;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Exception class to handle errors thrown during video compression
  * 
@@ -27,12 +30,25 @@ public class VideoException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 378604187699000920L;
+	
+	List<String> unhandledMessages = null;
 
 	public VideoException() {
 		super();
 	}
 
-	/**
+    /**
+     * Throws Video Exception error with custom message and casue
+     * 
+     * @param message - description of the error
+     * @param cause   - root cause of the issue
+     */
+    public VideoException(String message, List<String> unhandledMessages, Throwable cause) {
+        super(message, cause);
+        this.unhandledMessages = unhandledMessages;
+    }
+    
+    /**
 	 * Throws Video Exception error with custom message and casue
 	 * 
 	 * @param message - description of the error
@@ -56,6 +72,10 @@ public class VideoException extends Exception {
 	 */
 	public VideoException(Throwable cause) {
 		super(cause);
+	}
+	
+	public List<String> getUnhandledMessages() {
+	    return unhandledMessages;
 	}
 
 }
